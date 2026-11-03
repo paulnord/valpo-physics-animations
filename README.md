@@ -1,7 +1,7 @@
 # Valpo Physics Animations
 
 Editable physics and mathematics animations made with **Manim Community Edition**.
-The initial collection contains eight portrait-format scenes. Everything needed to
+The collection contains eight portrait-format scenes and a landscape 3D electron-beam scene. Everything needed to
 build the scenes is source code: no external images, detector data, or TeX installation
 is required. Rendered movies and intermediate caches are not committed.
 
@@ -19,7 +19,9 @@ is required. Rendered movies and intermediate caches are not committed.
 
 | Numerical integration | Broad Landau and narrow Gaussian on increasingly coarse fixed grids | [boxed_broad_landau.py](langau/boxed_broad_landau.py) · `BoxedBroadLandau` |
 
-Topic notes: [Convolution](convolution/README.md), [Stars](stars/README.md), [Langau](langau/README.md).
+| Electron charge-to-mass ratio | Busch-method electron-beam sweep and magnetic focusing | [BuschBeamCinematic.py](electron_beams/BuschBeamCinematic.py) · `BuschBeamCinematic` |
+
+Topic notes: [Convolution](convolution/README.md), [Stars](stars/README.md), [Langau](langau/README.md), [Busch method / e/m](electron_beams/README.md).
 
 ## Setup
 
@@ -41,7 +43,7 @@ native Cairo/Pango libraries, which conda-forge supplies. SciPy must provide
 
 ## Render
 
-Run from the repository root. Scene files set a **900 × 1600**, **24 fps** portrait
+Run from the repository root. The convolution, stars, and Langau source files set a **900 × 1600**, **24 fps** portrait
 canvas themselves, so quality flags do not reliably override those settings.
 
 ```sh
@@ -67,10 +69,19 @@ of a source file to change output resolution or frame rate. Keep `frame_width` a
 `frame_height` unchanged to retain the layout. Render each source in a separate
 command because these files configure Manim globally.
 
+The Busch scene uses Manim's landscape defaults and accepts quality flags:
+
+```sh
+python -m manim -ql --renderer cairo electron_beams/BuschBeamCinematic.py BuschBeamCinematic
+```
+
+See its [topic notes](electron_beams/README.md) for the recovered version's preserved
+commented-out sections and the `FAST_MODE` setting.
+
 ## Checks
 
 ```sh
-python -m compileall -q convolution stars langau tests
+python -m compileall -q convolution stars langau electron_beams tests
 python -m unittest discover -s tests -v
 ```
 
