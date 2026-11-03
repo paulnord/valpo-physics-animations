@@ -1,0 +1,10 @@
+name: valpo-physics-animations
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - manim=0.22.1
+  - numpy=2.5.4
+  - scipy=1.18.1
+  - ffmpeg
+  - fonts-conda-forge
