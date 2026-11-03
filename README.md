@@ -1,7 +1,7 @@
 # Valpo Physics Animations
 
 Editable physics and mathematics animations made with **Manim Community Edition**.
-The initial collection contains seven portrait-format scenes. Everything needed to
+The initial collection contains eight portrait-format scenes. Everything needed to
 build the scenes is source code: no external images, detector data, or TeX installation
 is required. Rendered movies and intermediate caches are not committed.
 
@@ -16,6 +16,8 @@ is required. Rendered movies and intermediate caches are not committed.
 | Numerical integration | Genuine undersampling artifacts in Langau quadrature | [langau.py](langau/langau.py) · `LangauUndersampling` |
 | Numerical integration | Midpoint rectangles and missed narrow peaks | [langau_rectangles.py](langau/langau_rectangles.py) · `LangauMidpointRectangles` |
 | Numerical integration | Inputs, product, and midpoint boxes together | [langau_overlap_rectangles.py](langau/langau_overlap_rectangles.py) · `LangauOverlapRectangles` |
+
+| Numerical integration | Broad Landau and narrow Gaussian on increasingly coarse fixed grids | [boxed_broad_landau.py](langau/boxed_broad_landau.py) · `BoxedBroadLandau` |
 
 Topic notes: [Convolution](convolution/README.md), [Stars](stars/README.md), [Langau](langau/README.md).
 
@@ -47,6 +49,7 @@ python -m manim --renderer cairo convolution/circles.py CircleConvolution
 python -m manim --renderer cairo convolution/offset_circles.py OffsetCircleConvolution
 python -m manim --renderer cairo stars/partial_eclipse.py PartialStellarEclipse
 python -m manim --renderer cairo langau/smooth_langau.py SmoothLangau
+python -m manim --renderer cairo langau/boxed_broad_landau.py BoxedBroadLandau
 python -m manim --renderer cairo langau/langau.py LangauUndersampling
 python -m manim --renderer cairo langau/langau_rectangles.py LangauMidpointRectangles
 python -m manim --renderer cairo langau/langau_overlap_rectangles.py LangauOverlapRectangles
@@ -73,7 +76,7 @@ python -m unittest discover -s tests -v
 
 The tests check disk overlap geometry, eclipse flux, finite/nonnegative Langau
 values, consistency of the three quadrature variants, and smooth-convolution
-convergence. They do not replace inspecting a rendered movie.
+convergence, including the fine fixed-grid boxed example. They do not replace inspecting a rendered movie.
 
 ## References
 

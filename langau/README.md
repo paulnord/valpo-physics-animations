@@ -8,6 +8,12 @@
 - [LangauOverlapRectangles](langau_overlap_rectangles.py): shows both inputs and their
   product together with the midpoint boxes.
 
+- [BoxedBroadLandau](boxed_broad_landau.py): broad Landau scale `xi=1` and narrow
+  Gaussian `sigma=0.18`, with peak-normalized inputs. Compares fixed midpoint grids
+  of spacing 0.06, 0.45, and 0.9 over `[-9,18]`. The Gaussian is resampled as it
+  slides; gold rectangles represent the product, and their areas sum to the
+  displayed convolution. The dashed curve is a resolved reference integral.
+
 The three narrow-Landau scenes integrate over `x ± 5 sigma`, starting from 100
 midpoints. Their waves come from the sampled integral rather than decorative
 oscillations. Displayed inputs in the overlap-boxes scene are peak-normalized;

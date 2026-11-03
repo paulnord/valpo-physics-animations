@@ -49,5 +49,20 @@ class ModelTests(unittest.TestCase):
         self.assertTrue(np.all(result >= 0))
         np.testing.assert_allclose(result, model.convolution(x, 320), rtol=1e-8, atol=1e-10)
 
+    def test_boxed_broad_landau(self):
+        model = load('langau/boxed_broad_landau.py')
+        x = np.linspace(-3, 7, 1601)
+        ref = model.reference(x)
+        np.testing.assert_allclose(ref, model.reference(x, 320), atol=1e-10, rtol=1e-10)
+        np.testing.assert_allclose(model.midpoint(x, 0.06), ref, atol=1e-8, rtol=1e-8)
+        errors = []
+        for step in model.STEPS:
+            result = model.midpoint(x, step)
+            self.assertTrue(np.all(np.isfinite(result)))
+            self.assertTrue(np.all(result >= 0))
+            self.assertAlmostEqual(len(model.grid(step))*step, 27)
+            errors.append(np.max(np.abs(result-ref)))
+        self.assertTrue(errors[0] < errors[1] < errors[2])
+
 if __name__ == '__main__':
     unittest.main()
