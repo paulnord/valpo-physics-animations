@@ -59,7 +59,7 @@ class BoxedBroadLandau(Scene):
     group.add(Polygon(top.c2p(left,0),top.c2p(right,0),top.c2p(right,h),top.c2p(left,h),
       stroke_color=color,stroke_width=stroke,fill_color=color,fill_opacity=opacity))
    return group
-  landau_boxes=always_redraw(lambda:rectangles(f(grid(STEPS[stage[0]])),CYAN,.14,.65))
+  landau_boxes=rectangles(f(grid(STEPS[stage[0]])),CYAN,.14,.65)
   gauss_boxes=always_redraw(lambda:rectangles(g(x.get_value()-grid(STEPS[stage[0]])),PINK,.18,1.1))
   product_boxes=always_redraw(lambda:rectangles(f(grid(STEPS[stage[0]]))*g(x.get_value()-grid(STEPS[stage[0]])),GOLD,.48,1.5))
   self.add(landau_boxes,gauss_boxes,product_boxes)
@@ -68,29 +68,30 @@ class BoxedBroadLandau(Scene):
    txt('Each gold height = cyan height × pink height',.25,23,GOLD))
   out=Axes(x_range=[-3,7,2],y_range=[0,1.05,.5],x_length=7.6,y_length=3.15,
     axis_config={'color':MUTED,'include_ticks':False},tips=False).move_to([0,-2.56,0])
-  self.add(out,txt('Convolution ≈ sum of the gold box areas',-.55,25,GOLD))
+  self.add(out,txt('Sampled convolution versus the ideal curve',-.55,25,GOLD))
   for v in [-2,0,2,4,6]:self.add(Text(str(v),font_size=19,color=MUTED).next_to(out.c2p(v,0),DOWN,buff=.13))
   for v in [.5,1]:self.add(Text(str(v),font_size=18,color=MUTED).next_to(out.c2p(-3,v),LEFT,buff=.12))
   self.add(Text('x',font_size=22,color=CREAM).next_to(out.c2p(7,0),RIGHT,buff=.1))
   xs=np.linspace(-3,7,1601);ref=reference(xs)
   assert np.max(abs(ref-reference(xs,320)))<1e-10
   values=[midpoint(xs,d) for d in STEPS]
-  self.add(DashedVMobject(path(out,xs,ref,MUTED,2),num_dashes=90,dashed_ratio=.6))
+  self.add(path(out,xs,ref,CREAM,3.4))
   def trace():
    mask=xs<=x.get_value()
    if np.sum(mask)<2:return VMobject()
    return path(out,xs[mask],values[stage[0]][mask],GOLD,3.5)
   self.add(always_redraw(trace),always_redraw(lambda:Dot(out.c2p(x.get_value(),float(midpoint(x.get_value(),STEPS[stage[0]]))),radius=.055,color=GOLD)))
-  self.add(txt('Gold: midpoint sum     Gray dashed: resolved integral',-4.72,21),
+  self.add(txt('White: ideal convolution     Gold: sampled sum',-4.72,22),
    txt('CΔ(x) = Δu Σ f(uᵢ)g(x − uᵢ)',-5.35,28))
   caption=VGroup(txt('Many small boxes resolve the narrow Gaussian.',-6.12,24,GOLD),txt('The summed overlap changes smoothly.',-6.61,22,MUTED))
-  self.add(caption,txt('Landau scale ξ = 1    Gaussian σ = 0.18    Illustrative shapes',-7.43,18,MUTED))
+  self.add(caption,txt('Ideal = converged integral of the same two functions',-7.05,18,CREAM),txt('Landau scale ξ = 1    Gaussian σ = 0.18    Illustrative shapes',-7.53,17,MUTED))
   self.wait(2)
   self.play(x.animate.set_value(7),run_time=12,rate_func=linear)
   self.wait(1)
   for j,d,lines in [(1,.45,('Wider boxes start to miss the narrow peak.','The numerical result begins to ripple.')),
                    (2,.9,('Very wide boxes alternately hit and miss it.','These waves come from sampling, not the true convolution.'))]:
    stage[0]=j;x.set_value(-3)
+   landau_boxes.become(rectangles(f(grid(STEPS[stage[0]])),CYAN,.14,.65))
    self.play(Transform(status,txt(f'{j+1} / 3   Wider boxes: Δu = {d:.2f}',1.42,27,GOLD)),
     Transform(caption,VGroup(txt(lines[0],-6.12,24,GOLD),txt(lines[1],-6.61,22,MUTED))),run_time=.5)
    self.wait(1)

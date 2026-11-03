@@ -12,7 +12,7 @@
   Gaussian `sigma=0.18`, with peak-normalized inputs. Compares fixed midpoint grids
   of spacing 0.06, 0.45, and 0.9 over `[-9,18]`. The Gaussian is resampled as it
   slides; gold rectangles represent the product, and their areas sum to the
-  displayed convolution. The dashed curve is a resolved reference integral.
+  displayed convolution. The bright white curve is the converged ideal convolution; gold shows the sampled sum.
 
 The three narrow-Landau scenes integrate over `x ± 5 sigma`, starting from 100
 midpoints. Their waves come from the sampled integral rather than decorative
